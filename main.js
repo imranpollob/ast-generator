@@ -1,46 +1,34 @@
-import { basicSetup } from "codemirror";
-import { EditorView, ViewPlugin } from "@codemirror/view";
-import { EditorState, EditorSelection, Transaction } from "@codemirror/state";
-import { javascript } from "@codemirror/lang-javascript";
-import { json } from "@codemirror/lang-json";
-import { code, ast } from "./testSourceCode.js";
+import CodeMirror from "codemirror";
+import "codemirror/lib/codemirror.css";
+import "codemirror/theme/material.css";
+import "codemirror/theme/monokai.css";
+import "codemirror/addon/display/autorefresh";
+import "codemirror/addon/scroll/simplescrollbars";
+import "codemirror/addon/scroll/simplescrollbars.css";
+import "codemirror/mode/javascript/javascript.js";
+import "codemirror/addon/fold/foldgutter.css";
+import "codemirror/addon/fold/foldcode";
+import "codemirror/addon/fold/foldgutter";
 
-const clickPlugin = ViewPlugin.fromClass(
-  class {
-    constructor(view) {
-      view.dom.addEventListener("click", () => {
-        console.log(view.state.selection.main.head);
-      });
-      view.dom.addEventListener("keydown", () => {
-        console.log(view.state.selection.main.head);
-      });
-    }
-  }
-);
+import { code, jscode, ast } from "./testSourceCode.js";
 
-function highlightSelection(editor, start, end) {
-  // Create a new selection range
-  const range = EditorSelection.range(start, end);
+// Create a textarea element to be used as the CodeMirror editor
+const textarea = document.createElement("textarea");
+document.body.appendChild(textarea);
 
-  // Create a new Transaction that sets the selection
-  const tr = editor.state.update({
-    selection: { anchor: start, head: end },
-  });
-
-  // Apply the Transaction
-  editor.dispatch(tr);
-}
-
-const editor = new EditorView({
-  doc: code,
-  extensions: [basicSetup, javascript(), clickPlugin],
-  parent: document.querySelector("#editor"),
+// Initialize CodeMirror with the textarea element
+const editor = CodeMirror(document.querySelector("#editor"), {
+  lineNumbers: true, // Enable line number functionality
+  value: jscode, // Set the editor content
+  mode: "javascript", // Set the language mode to JavaScript
+  theme: "monokai", // Set the editor theme
+  lineWrapping: true, // Enable line wrapping
+  foldGutter: true, // Enable code folding
+  gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"], // Add fold gutter
 });
 
-const astEditor = new EditorView({
-  doc: ast,
-  extensions: [basicSetup, json()],
-  parent: document.querySelector("#ast"),
+// Add cursorActivity event to print cursor current position
+editor.on("cursorActivity", function () {
+  const cursor = editor.getCursor();
+  console.log("Cursor position: ", cursor);
 });
-
-highlightSelection(astEditor, 0, 10);
