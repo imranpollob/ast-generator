@@ -10,24 +10,32 @@ const code = `{
           "stateVariable": true,
           "storageLocation": "default",
           "typeDescriptions": { "typeIdentifier": "t_uint256", "typeString": "uint256" },
-          "typeName": {
-            "id": 2,
-            "name": "uint256",
-            "nodeType": "ElementaryTypeName",
-            "src": "81:7:0",
-            "typeDescriptions": { "typeIdentifier": "t_uint256", "typeString": "uint256" }
-          },
           "value": {
             "hexValue": "363034383030",
             "id": 3,
             "isConstant": false,
+            "typeName": {
+              "id": 2,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "81:7:0",
+              "typeDescriptions": { "typeIdentifier": "t_uint256", "typeString": "uint256" }
+            },
             "isLValue": false,
             "isPure": true,
             "kind": "number",
             "lValueRequested": false,
             "nodeType": "Literal",
             "src": "105:6:0",
-            "typeDescriptions": { "typeIdentifier": "t_rational_604800_by_1", "typeString": "int_const 604800" },
+            "expression": {
+              "id": 9,
+              "name": "block",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 4294967292,
+              "src": "225:5:0",
+              "typeDescriptions": { "typeIdentifier": "t_magic_block", "typeString": "block" }
+              },
             "value": "604800"
           },
           "visibility": "internal"
