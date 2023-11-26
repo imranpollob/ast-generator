@@ -27,7 +27,7 @@ export const jscode = `export function retreatFrontier(doc, n) {
   doc.highlightFrontier = Math.min(doc.highlightFrontier, start)
 }`;
 
-export const ast = `{
+export const astCode = `{
   "absolutePath": "Test.sol",
   "exportedSymbols": { "Test": [14] },
   "id": 15,
