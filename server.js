@@ -1,20 +1,20 @@
 import express from "express";
-import bodyParser from "body-parser";
 import solc from "solc";
 import cors from "cors";
+import prettier from "prettier";
 
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.json({ message: "Hello from the server!" });
+  res.json({ message: "Hello!" });
 });
 
-app.post("/api/getAstCode", (req, res) => {
-  const solidityCode = req.body;
+app.post("/api/getAstCode", async (req, res) => {
+  const solidityCode = req.body.code;
 
   var input = {
     language: "Solidity",
@@ -28,13 +28,13 @@ app.post("/api/getAstCode", (req, res) => {
     },
   };
 
-  const the_ast = JSON.parse(solc.compile(JSON.stringify(input))).sources[
+  let the_ast = JSON.parse(solc.compile(JSON.stringify(input))).sources[
     "Test.sol"
   ].ast;
 
-  console.log(the_ast);
+  the_ast = await prettier.format(JSON.stringify(the_ast), { parser: "json" });
 
-  res.json({});
+  res.json({ compiled_ast: the_ast });
 });
 
 app.listen(port, () => {
