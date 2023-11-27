@@ -28,13 +28,19 @@ app.post("/api/getAstCode", async (req, res) => {
     },
   };
 
-  let the_ast = JSON.parse(solc.compile(JSON.stringify(input))).sources[
-    "Test.sol"
-  ].ast;
+  try {
+    let the_ast = JSON.parse(solc.compile(JSON.stringify(input))).sources[
+      "Test.sol"
+    ].ast;
 
-  the_ast = await prettier.format(JSON.stringify(the_ast), { parser: "json" });
+    the_ast = await prettier.format(JSON.stringify(the_ast), {
+      parser: "json",
+    });
 
-  res.json({ compiled_ast: the_ast });
+    res.json({ compiled_ast: the_ast });
+  } catch (error) {
+    res.json({ error_message: "Compilation error!" });
+  }
 });
 
 app.listen(port, () => {

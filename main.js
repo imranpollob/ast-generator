@@ -17,13 +17,18 @@ import "codemirror/addon/selection/selection-pointer";
 import "codemirror/addon/edit/matchbrackets";
 import "codemirror/addon/edit/matchtags";
 import "codemirror/addon/edit/closebrackets.js";
-
 import { code, jscode, astCode } from "./testSourceCode.js";
 import { findBlockIndices } from "./utils.js";
 
-// Initialize CodeMirror with the textarea element
+const btn = document.querySelector("#convertBtn");
+let mark;
+let blockIndices;
+let compiledAst;
+let isDirty = true;
+
+// Editor setup
 export const editor = CodeMirror(document.querySelector("#code-editor"), {
-  value: code,
+  // value: code,
   mode: "javascript",
   lineNumbers: true,
   foldGutter: true,
@@ -40,8 +45,9 @@ export const editor = CodeMirror(document.querySelector("#code-editor"), {
   indentUnit: 4,
 });
 
+// AST Editor setup
 export const astEditor = CodeMirror(document.querySelector("#ast-editor"), {
-  value: astCode,
+  // value: astCode,
   mode: "javascript",
   lineNumbers: true,
   foldGutter: true,
@@ -57,15 +63,9 @@ export const astEditor = CodeMirror(document.querySelector("#ast-editor"), {
   readOnly: true,
 });
 
-let blockIndices = findBlockIndices(astCode);
-// blockIndices = blockIndices.filter((item) => item.codeStart);
-// blockIndices.sort((a, b) => a.end - a.start - (b.end - b.start));
-
-console.log(blockIndices);
-
-let mark;
-
 editor.on("cursorActivity", function () {
+  if (isDirty) return;
+
   if (mark) {
     removeHighlight(mark);
   }
@@ -89,14 +89,23 @@ editor.on("cursorActivity", function () {
   }
 });
 
-astEditor.on("cursorActivity", function () {
-  const cursor = astEditor.getCursor();
-  let absolutePosition = astEditor.indexFromPos(cursor);
-  absolutePosition = absolutePosition;
-  console.log("AST Cursor position:", absolutePosition);
-});
+// astEditor.on("change", function () {
+//   if (isDirty) return;
 
+//   console.log(blockIndices);
+// });
+
+// astEditor.on("cursorActivity", function () {
+//   const cursor = astEditor.getCursor();
+//   let absolutePosition = astEditor.indexFromPos(cursor);
+//   absolutePosition = absolutePosition;
+//   console.log("AST Cursor position:", absolutePosition);
+// });
+
+// Functionalities
 function highlight(start, end) {
+  if (isDirty) return;
+
   start = astEditor.posFromIndex(start);
   end = astEditor.posFromIndex(end);
 
@@ -118,3 +127,36 @@ function scrollToLine(position) {
     astEditor.charCoords({ line: lineNumber - 1, ch: 0 }, "local").top
   );
 }
+
+btn.addEventListener("click", () => {
+  const code = editor.getValue();
+
+  fetch("http://localhost:3000/api/getAstCode", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ code: code }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      // console.log(data);
+      if (data.error_message) {
+        astEditor.setValue(data.error_message);
+        isDirty = true;
+        return;
+      }
+      compiledAst = data.compiled_ast;
+      blockIndices = findBlockIndices(compiledAst);
+      astEditor.setValue(compiledAst);
+      isDirty = false;
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+});
