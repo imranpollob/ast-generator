@@ -1,18 +1,38 @@
 .highlighted-block {
-        background-color: yellow;
-        color: black;
-      }
-      .editors {
-        display: flex;
-      }
-      #code-editor,
-      #ast-editor {
-        flex: 1;
-      }
-      .CodeMirror {
-        height: 95vh !important;
-        border: 1px solid #ddd;
-      }
-      .CodeMirror-scroll {
-        max-height: 100vh !important;
-      }
+  background-color: yellow;
+  color: black;
+}
+
+.editors {
+  display: flex;
+}
+
+#code-editor,
+#ast-editor {
+  flex: 1;
+}
+
+.CodeMirror {
+  height: 95vh !important;
+  border: 1px solid #ddd;
+}
+
+.CodeMirror-scroll {
+  max-height: 100vh !important;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 5px;
+  font-size: 14px;
+}
+
+#convertBtn {
+  background-color: #04aa6d;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+}

@@ -16,12 +16,13 @@ import "codemirror/addon/selection/mark-selection";
 import "codemirror/addon/selection/selection-pointer";
 import "codemirror/addon/edit/matchbrackets";
 import "codemirror/addon/edit/matchtags";
+import "codemirror/addon/edit/closebrackets.js";
 
 import { code, jscode, astCode } from "./testSourceCode.js";
 import { findBlockIndices } from "./utils.js";
 
 // Initialize CodeMirror with the textarea element
-const editor = CodeMirror(document.querySelector("#code-editor"), {
+export const editor = CodeMirror(document.querySelector("#code-editor"), {
   value: code,
   mode: "javascript",
   lineNumbers: true,
@@ -35,9 +36,11 @@ const editor = CodeMirror(document.querySelector("#code-editor"), {
   autoRefresh: true,
   matchBrackets: true,
   matchTags: true,
+  autoCloseBrackets: true,
+  indentUnit: 4,
 });
 
-const astEditor = CodeMirror(document.querySelector("#ast-editor"), {
+export const astEditor = CodeMirror(document.querySelector("#ast-editor"), {
   value: astCode,
   mode: "javascript",
   lineNumbers: true,
@@ -51,6 +54,7 @@ const astEditor = CodeMirror(document.querySelector("#ast-editor"), {
   autoRefresh: true,
   matchBrackets: true,
   matchTags: true,
+  readOnly: true,
 });
 
 let blockIndices = findBlockIndices(astCode);
