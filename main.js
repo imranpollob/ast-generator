@@ -66,22 +66,19 @@ export const astEditor = CodeMirror(document.querySelector("#ast-editor"), {
 editor.on("cursorActivity", function () {
   if (isDirty) return;
 
-  if (mark) {
-    removeHighlight(mark);
-  }
+  removeHighlight();
+
   const cursor = editor.getCursor();
   let absolutePosition = editor.indexFromPos(cursor);
   absolutePosition = absolutePosition + cursor.line;
 
-  console.log("Cursor position:", absolutePosition);
-
-  // find the start and end of the block
   const block = blockIndices.find(
     (item) =>
       absolutePosition >= item.codeStart && absolutePosition <= item.codeEnd
   );
 
-  console.log("Block:", block);
+  console.log("Cursor position:", absolutePosition);
+  console.log("Matched block:", block);
 
   if (block) {
     mark = highlight(block.start, block.end);
@@ -89,11 +86,15 @@ editor.on("cursorActivity", function () {
   }
 });
 
-// astEditor.on("change", function () {
-//   if (isDirty) return;
-
-//   console.log(blockIndices);
-// });
+editor.on("change", function (instance, changeObj) {
+  if (!!changeObj && !isDirty) {
+    console.log("Editor changed!");
+    isDirty = true;
+    removeHighlight();
+    btn.innerText = "Compile Now";
+    btn.classList.add("dirty");
+  }
+});
 
 // astEditor.on("cursorActivity", function () {
 //   const cursor = astEditor.getCursor();
@@ -103,6 +104,7 @@ editor.on("cursorActivity", function () {
 // });
 
 // Functionalities
+
 function highlight(start, end) {
   if (isDirty) return;
 
@@ -116,8 +118,8 @@ function highlight(start, end) {
   return mark;
 }
 
-function removeHighlight(mark) {
-  mark.clear();
+function removeHighlight() {
+  if (mark) mark.clear();
 }
 
 function scrollToLine(position) {
@@ -155,6 +157,8 @@ btn.addEventListener("click", () => {
       blockIndices = findBlockIndices(compiledAst);
       astEditor.setValue(compiledAst);
       isDirty = false;
+      btn.innerText = "Already Compiled";
+      btn.classList.remove("dirty");
     })
     .catch((error) => {
       console.error("Error fetching data:", error);

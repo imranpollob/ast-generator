@@ -36,3 +36,7 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+.dirty {
+  background-color: #f44336 !important;
+}
