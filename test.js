@@ -1,45 +1,30 @@
 const code = `{
-          "constant": true,
-          "id": 4,
-          "mutability": "constant",
-          "name": "WEEK",
-          "nameLocation": "98:4:0",
-          "nodeType": "VariableDeclaration",
-          "scope": 14,
-          "src": "81:30:0",
-          "stateVariable": true,
-          "storageLocation": "default",
-          "typeDescriptions": { "typeIdentifier": "t_uint256", "typeString": "uint256" },
-          "value": {
-            "hexValue": "363034383030",
-            "id": 3,
-            "isConstant": false,
-            "typeName": {
-              "id": 2,
-              "name": "uint256",
-              "nodeType": "ElementaryTypeName",
-              "src": "81:7:0",
-              "typeDescriptions": { "typeIdentifier": "t_uint256", "typeString": "uint256" }
-            },
-            "isLValue": false,
-            "isPure": true,
-            "kind": "number",
-            "lValueRequested": false,
-            "nodeType": "Literal",
-            "src": "105:6:0",
-            "expression": {
-              "id": 9,
-              "name": "block",
-              "nodeType": "Identifier",
-              "overloadedDeclarations": [],
-              "referencedDeclaration": 4294967292,
-              "src": "225:5:0",
-              "typeDescriptions": { "typeIdentifier": "t_magic_block", "typeString": "block" }
-              },
-            "value": "604800"
-          },
-          "visibility": "internal"
-        }`;
+  "absolutePath": "Test.sol",
+  "exportedSymbols": { "Test": [14] },
+  "id": 15,
+  "license": "MIT",
+  "nodeType": "SourceUnit",
+  "nodes": [
+    { "id": 1, "literals": ["solidity", "^", "0.8", ".0"], "nodeType": "PragmaDirective", "src": "33:23:0" },
+    {
+      "abstract": false,
+      "baseContracts": [],
+      "canonicalName": "Test",
+      "contractDependencies": [],
+      "contractKind": "contract",
+      "fullyImplemented": true,
+      "id": 14,
+      "linearizedBaseContracts": [14],
+      "name": "Test",
+      "nameLocation": "69:4:0",
+      "nodeType": "ContractDefinition",
+      "scope": 15,
+      "src": "60:191:0",
+      "usedErrors": []
+    }
+  ],
+  "src": "33:220:0"
+}`;
 
 function findLineNumber(code, searchString) {
   const lines = code.split("\n");
@@ -50,3 +35,48 @@ function findLineNumber(code, searchString) {
   }
   return -1; // Return -1 if the searchString is not found
 }
+
+function findBlockIndices(code) {
+  const blockIndices = [];
+  const stack = [];
+  let stackSrc = [];
+
+  for (let i = 0; i < code.length; i++) {
+    if (code[i] === "{") {
+      stack.push(i);
+    } else if (code.slice(i, i + 6) === '"src":') {
+      const startIndex = code.indexOf('"', i + 7);
+      const endIndex = code.indexOf('"', startIndex + 1);
+      stackSrc = code
+        .slice(startIndex + 1, endIndex)
+        .split(":", 2)
+        .map(Number);
+      // console.log(stackSrc);
+    } else if (code[i] === "}") {
+      if (stack.length > 0) {
+        const startIndex = stack.pop();
+        const endIndex = i;
+        let numStartIndex = stackSrc[0];
+        const numLength = stackSrc[1];
+        console.log(numStartIndex, numLength);
+
+        stackSrc = [];
+        blockIndices.push({
+          start: startIndex,
+          end: endIndex,
+          codeStart: numStartIndex,
+          codeEnd: numStartIndex + numLength,
+        });
+      }
+    }
+  }
+
+  return blockIndices;
+}
+
+const blockIndices = findBlockIndices(code);
+console.log(blockIndices);
+
+// blockIndices.sort((a, b) => a.end - a.start - (b.end - b.start));
+
+// console.log(blockIndices);
