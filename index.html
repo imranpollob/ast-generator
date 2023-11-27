@@ -5,19 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
     <style>
-      /* Add this to your styles */
       .highlighted-block {
-        background-color: yellow; /* Set your desired background color */
-        color: black; /* Set your desired text color */
+        background-color: yellow;
+        color: black;
+      }
+      .editors {
+        display: flex;
+      }
+      #code-editor,
+      #ast-editor {
+        flex: 1;
+      }
+      .CodeMirror {
+        height: 95vh !important;
+        border: 1px solid #ddd;
+      }
+      .CodeMirror-scroll {
+        max-height: 100vh !important;
       }
     </style>
   </head>
   <body>
-    <h2>Code</h2>
-    <div id="code-editor"></div>
+    <div class="editors">
+      <div id="code-editor"></div>
+      <div id="ast-editor"></div>
+    </div>
 
-    <h2>AST</h2>
-    <div id="ast-editor"></div>
     <script type="module" src="/main.js"></script>
   </body>
 </html>

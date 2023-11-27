@@ -18,6 +18,7 @@ import "codemirror/addon/edit/matchbrackets";
 import "codemirror/addon/edit/matchtags";
 
 import { code, jscode, astCode } from "./testSourceCode.js";
+import { findBlockIndices } from "./utils.js";
 
 // Initialize CodeMirror with the textarea element
 const editor = CodeMirror(document.querySelector("#code-editor"), {
@@ -34,7 +35,6 @@ const editor = CodeMirror(document.querySelector("#code-editor"), {
   autoRefresh: true,
   matchBrackets: true,
   matchTags: true,
-  // lineSeparator: "\n",
 });
 
 const astEditor = CodeMirror(document.querySelector("#ast-editor"), {
@@ -53,20 +53,48 @@ const astEditor = CodeMirror(document.querySelector("#ast-editor"), {
   matchTags: true,
 });
 
+let blockIndices = findBlockIndices(astCode);
+// blockIndices = blockIndices.filter((item) => item.codeStart);
+// blockIndices.sort((a, b) => a.end - a.start - (b.end - b.start));
+
+console.log(blockIndices);
+
+let mark;
+
 editor.on("cursorActivity", function () {
+  if (mark) {
+    removeHighlight(mark);
+  }
   const cursor = editor.getCursor();
-  console.log("Cursor position: ", cursor, cursor.line);
-  const absolutePosition = editor.indexFromPos(cursor);
-  console.log(
-    "Absolute cursor position:",
-    absolutePosition,
-    absolutePosition + cursor.line
+  let absolutePosition = editor.indexFromPos(cursor);
+  absolutePosition = absolutePosition + cursor.line;
+
+  console.log("Cursor position:", absolutePosition);
+
+  // find the start and end of the block
+  const block = blockIndices.find(
+    (item) =>
+      absolutePosition >= item.codeStart && absolutePosition <= item.codeEnd
   );
+
+  console.log("Block:", block);
+
+  if (block) {
+    mark = highlight(block.start, block.end);
+    scrollToLine(block.start);
+  }
 });
 
-function highlightBlock(startLine, startCh, endLine, endCh) {
-  const start = { line: startLine, ch: startCh };
-  const end = { line: endLine, ch: endCh };
+astEditor.on("cursorActivity", function () {
+  const cursor = astEditor.getCursor();
+  let absolutePosition = astEditor.indexFromPos(cursor);
+  absolutePosition = absolutePosition;
+  console.log("AST Cursor position:", absolutePosition);
+});
+
+function highlight(start, end) {
+  start = astEditor.posFromIndex(start);
+  end = astEditor.posFromIndex(end);
 
   const mark = astEditor.markText(start, end, {
     className: "highlighted-block",
@@ -79,8 +107,10 @@ function removeHighlight(mark) {
   mark.clear();
 }
 
-const myMark = highlightBlock(3, 5, 7, 12);
-
-// setTimeout(() => {
-//   removeHighlight(myMark);
-// }, 3000); // Remove after 3 seconds as an example
+function scrollToLine(position) {
+  const lineNumber = astEditor.posFromIndex(position).line;
+  astEditor.scrollTo(
+    null,
+    astEditor.charCoords({ line: lineNumber - 1, ch: 0 }, "local").top
+  );
+}
