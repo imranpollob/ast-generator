@@ -22,7 +22,7 @@ export function findBlockIndices(code) {
             start: startIndex,
             end: endIndex,
             codeStart: numStartIndex,
-            codeEnd: numStartIndex + numLength + 1,
+            codeEnd: numStartIndex + numLength,
           });
         }
       }
@@ -30,6 +30,7 @@ export function findBlockIndices(code) {
   }
 
   // console.log(blockIndices.length);
+  console.log("Block indices:", blockIndices);
   return blockIndices;
 }
 

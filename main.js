@@ -69,15 +69,14 @@ editor.on("cursorActivity", function () {
   removeHighlight();
 
   const cursor = editor.getCursor();
-  let absolutePosition = editor.indexFromPos(cursor);
-  absolutePosition = absolutePosition + cursor.line;
+  let pos = editor.indexFromPos(cursor);
+  let posLine = pos + cursor.line;
 
   const block = blockIndices.find(
-    (item) =>
-      absolutePosition >= item.codeStart && absolutePosition <= item.codeEnd
+    (item) => pos >= item.codeStart && pos <= item.codeEnd
   );
 
-  console.log("Cursor position:", absolutePosition);
+  console.log("Cursor position:", pos, cursor.line, posLine);
   console.log("Matched block:", block);
 
   if (block) {
@@ -96,12 +95,11 @@ editor.on("change", function (instance, changeObj) {
   }
 });
 
-// astEditor.on("cursorActivity", function () {
-//   const cursor = astEditor.getCursor();
-//   let absolutePosition = astEditor.indexFromPos(cursor);
-//   absolutePosition = absolutePosition;
-//   console.log("AST Cursor position:", absolutePosition);
-// });
+astEditor.on("cursorActivity", function () {
+  const cursor = astEditor.getCursor();
+  let pos = astEditor.indexFromPos(cursor);
+  console.log("AST Cursor position:", pos);
+});
 
 // Functionalities
 
