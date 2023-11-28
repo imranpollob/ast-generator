@@ -21,6 +21,7 @@ import { code, jscode, astCode } from "./testSourceCode.js";
 import { findBlockIndices } from "./utils.js";
 
 const btn = document.querySelector("#convertBtn");
+const nodeType = document.querySelector("#node-type");
 let mark;
 let blockIndices;
 let compiledAst;
@@ -70,13 +71,11 @@ editor.on("cursorActivity", function () {
 
   const cursor = editor.getCursor();
   let pos = editor.indexFromPos(cursor);
-  let posLine = pos + cursor.line;
-
   const block = blockIndices.find(
     (item) => pos >= item.codeStart && pos <= item.codeEnd
   );
 
-  console.log("Cursor position:", pos, cursor.line, posLine);
+  console.log("Cursor position:", pos);
   console.log("Matched block:", block);
 
   if (block) {
@@ -90,6 +89,8 @@ editor.on("change", function (instance, changeObj) {
     console.log("Editor changed!");
     isDirty = true;
     removeHighlight();
+    nodeType.innerText = "";
+    nodeType.classList.add("display-none");
     btn.innerText = "Compile Now";
     btn.classList.add("dirty");
   }
@@ -102,9 +103,13 @@ astEditor.on("cursorActivity", function () {
 });
 
 // Functionalities
-
 function highlight(start, end) {
   if (isDirty) return;
+
+  nodeType.innerText = JSON.parse(
+    astEditor.getValue().slice(start, end)
+  ).nodeType;
+  nodeType.classList.remove("display-none");
 
   start = astEditor.posFromIndex(start);
   end = astEditor.posFromIndex(end);

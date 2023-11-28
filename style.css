@@ -40,3 +40,17 @@
 .dirty {
   background-color: #f44336 !important;
 }
+
+#node-type {
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  border: 2px solid #008cba;
+  background-color: #f1f1f1;
+  padding: 5px;
+  text-align: center;
+}
+
+.display-none {
+  display: none;
+}
