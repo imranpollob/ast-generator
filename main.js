@@ -1,4 +1,6 @@
 import CodeMirror from "codemirror";
+import { findBlockIndices } from "./utils.js";
+import { code, jscode, astCode } from "./testSourceCode.js";
 import "codemirror/lib/codemirror.css";
 import "codemirror/addon/fold/foldgutter.css";
 import "codemirror/addon/fold/foldcode";
@@ -17,8 +19,13 @@ import "codemirror/addon/selection/selection-pointer";
 import "codemirror/addon/edit/matchbrackets";
 import "codemirror/addon/edit/matchtags";
 import "codemirror/addon/edit/closebrackets.js";
-import { code, jscode, astCode } from "./testSourceCode.js";
-import { findBlockIndices } from "./utils.js";
+import "codemirror/addon/search/search.js";
+import "codemirror/addon/search/searchcursor.js";
+import "codemirror/addon/search/jump-to-line.js";
+import "codemirror/addon/search/match-highlighter.js";
+import "codemirror/addon/search/matchesonscrollbar.js";
+import "codemirror/addon/dialog/dialog.js";
+import "codemirror/addon/dialog/dialog.css";
 
 const btn = document.querySelector("#convertBtn");
 const nodeType = document.querySelector("#node-type");
@@ -29,7 +36,7 @@ let isDirty = true;
 
 // Editor setup
 export const editor = CodeMirror(document.querySelector("#code-editor"), {
-  // value: code,
+  value: code,
   mode: "javascript",
   lineNumbers: true,
   foldGutter: true,
@@ -44,6 +51,7 @@ export const editor = CodeMirror(document.querySelector("#code-editor"), {
   matchTags: true,
   autoCloseBrackets: true,
   indentUnit: 4,
+  search: true,
 });
 
 // AST Editor setup
@@ -62,6 +70,7 @@ export const astEditor = CodeMirror(document.querySelector("#ast-editor"), {
   matchBrackets: true,
   matchTags: true,
   readOnly: true,
+  search: true,
 });
 
 editor.on("cursorActivity", function () {
