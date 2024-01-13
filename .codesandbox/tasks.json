@@ -16,18 +16,15 @@
     },
     "build": {
       "name": "build",
-      "command": "npm run build",
-      "runAtStart": false
+      "command": "npm run build"
     },
     "production": {
       "name": "production",
-      "command": "npm run production",
-      "runAtStart": false
+      "command": "npm run production"
     },
     "preview": {
       "name": "preview",
-      "command": "npm run preview",
-      "runAtStart": false
+      "command": "npm run preview"
     }
   }
 }

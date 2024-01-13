@@ -81,7 +81,7 @@ editor.on("cursorActivity", function () {
   const cursor = editor.getCursor();
   let pos = editor.indexFromPos(cursor);
   const block = blockIndices.find(
-    (item) => pos >= item.codeStart && pos <= item.codeEnd
+    (item) => pos >= item.codeStart && pos <= item.codeEnd,
   );
 
   console.log("Cursor position:", pos);
@@ -116,7 +116,7 @@ function highlight(start, end) {
   if (isDirty) return;
 
   nodeType.innerText = JSON.parse(
-    astEditor.getValue().slice(start, end)
+    astEditor.getValue().slice(start, end),
   ).nodeType;
   nodeType.classList.remove("display-none");
 
@@ -138,14 +138,14 @@ function scrollToLine(position) {
   const lineNumber = astEditor.posFromIndex(position).line;
   astEditor.scrollTo(
     null,
-    astEditor.charCoords({ line: lineNumber - 1, ch: 0 }, "local").top
+    astEditor.charCoords({ line: lineNumber - 1, ch: 0 }, "local").top,
   );
 }
 
 btn.addEventListener("click", () => {
   const code = editor.getValue();
 
-  fetch("http://localhost:3000/api/getAstCode", {
+  fetch("/api/getAstCode", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
