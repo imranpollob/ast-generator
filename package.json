@@ -7,7 +7,9 @@
     "dev": "concurrently \"vite\" \"nodemon server.js\"",
     "build": "vite build && node server.js",
     "production": "vite build && pm2 start server.js",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "vite": "vite",
+    "vite-build": "vite build"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
