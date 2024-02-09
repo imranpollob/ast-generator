@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/getAstCode",
+      "destination": "http://3.17.188.225:3000/api/getAstCode"
+    }
+  ]
+}
