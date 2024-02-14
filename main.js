@@ -1,5 +1,5 @@
 import CodeMirror from "codemirror";
-import { findBlockIndices } from "./utils.js";
+import { findBlockIndices, findParentPathAndNodeType } from "./utils.js";
 import { code, jscode, astCode } from "./testSourceCode.js";
 import "codemirror/lib/codemirror.css";
 import "codemirror/addon/fold/foldgutter.css";
@@ -115,9 +115,20 @@ astEditor.on("cursorActivity", function () {
 function highlight(start, end) {
   if (isDirty) return;
 
-  nodeType.innerText = JSON.parse(
-    astEditor.getValue().slice(start, end)
-  ).nodeType;
+  const target = JSON.parse(astEditor.getValue().slice(start, end));
+
+  // nodeType.innerText = target.nodeType;
+  let targetPath = findParentPathAndNodeType(
+    JSON.parse(astEditor.getValue()),
+    target.id
+  );
+
+  if ("name" in target) {
+    targetPath.push(`Name: ${target.name}`);
+  }
+
+  nodeType.innerText = targetPath.join("\n");
+
   nodeType.classList.remove("display-none");
 
   start = astEditor.posFromIndex(start);

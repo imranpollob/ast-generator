@@ -39,3 +39,44 @@ export function findBlockIndices(code) {
 // blockIndices.sort((a, b) => a.end - a.start - (b.end - b.start));
 
 // console.log(blockIndices);
+
+export function findParentPathAndNodeType(
+  node,
+  targetId,
+  path = [],
+  nodeTypes = []
+) {
+  if (typeof node === "object") {
+    if (node.id === targetId) {
+      nodeTypes.shift();
+      nodeTypes.push(node.nodeType);
+      return path.map(
+        (v, i) => `${v} ${nodeTypes[i] ? "(" + nodeTypes[i] + ")" : ""}`
+      );
+    }
+
+    for (const key in node) {
+      const result = findParentPathAndNodeType(
+        node[key],
+        targetId,
+        [...path, key],
+        [...nodeTypes, node.nodeType || ""]
+      );
+      if (result) {
+        return result;
+      }
+    }
+  } else if (Array.isArray(node)) {
+    node.forEach((item, index) => {
+      const result = findParentPathAndNodeType(
+        item,
+        targetId,
+        [...path, `[${index}]`],
+        [...nodeTypes, item.nodeType || ""]
+      );
+      if (result) {
+        return result;
+      }
+    });
+  }
+}
