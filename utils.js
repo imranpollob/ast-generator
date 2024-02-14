@@ -56,11 +56,15 @@ export function findParentPathAndNodeType(
     }
 
     for (const key in node) {
+      let nodeName = "";
+      if ("name" in node) {
+        nodeName = ` | ${node.name}`;
+      }
       const result = findParentPathAndNodeType(
         node[key],
         targetId,
         [...path, key],
-        [...nodeTypes, node.nodeType || ""]
+        [...nodeTypes, node.nodeType ? node.nodeType + nodeName : ""]
       );
       if (result) {
         return result;
