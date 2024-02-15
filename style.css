@@ -54,3 +54,7 @@
 .display-none {
   display: none;
 }
+
+.cm-searching {
+  border: 1px solid seagreen;
+}
