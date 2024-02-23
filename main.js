@@ -120,11 +120,11 @@ function highlight(start, end) {
   start = astEditor.posFromIndex(start);
   end = astEditor.posFromIndex(end);
 
-  const mark = astEditor.markText(start, end, {
+  displayNodePath(target);
+
+  return astEditor.markText(start, end, {
     className: "highlighted-block",
   });
-
-  displayNodePath(target);
 }
 
 function displayNodePath(target) {
