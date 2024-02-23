@@ -8,7 +8,10 @@
       name="description"
       content="Generate AST of solidity code with code highlighting"
     />
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -18,10 +21,22 @@
       <div>AST</div>
     </div>
     <div class="editors">
-      <div id="code-editor"></div>
+      <div id="left-panel">
+        <div id="code-editor"></div>
+        <div class="node-tree-and-pin-container">
+          <div>
+            <button id="pin-button" onclick="copyContent()">Pin</button>
+          </div>
+          <div class="node-tree-container">
+            <div id="node-tree-display"></div>
+            <div id="node-tree-display-pinned"></div>
+          </div>
+        </div>
+      </div>
       <div id="ast-editor"></div>
     </div>
-    <div id="node-type" class="display-none"></div>
+
     <script type="module" src="/main.js"></script>
+    <script src="/node-tree-display.js"></script>
   </body>
 </html>

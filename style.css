@@ -6,6 +6,7 @@
 .node-path-header-text {
   text-decoration: underline;
 }
+
 .node-type {
   color: #53c28f;
 }
@@ -18,19 +19,32 @@
   display: flex;
 }
 
-#code-editor,
+#left-panel,
 #ast-editor {
-  flex: 1;
+  width: 50%;
 }
 
-.CodeMirror {
+/* #left-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+} */
+
+#code-editor .CodeMirror {
+  height: 60vh !important;
+  border-width: 1px 0 1px 1px;
+  border-style: solid;
+  border-color: #ddd;
+}
+
+#ast-editor .CodeMirror {
   height: 95vh !important;
   border: 1px solid #ddd;
 }
 
-.CodeMirror-scroll {
+/* .CodeMirror-scroll {
   max-height: 100vh !important;
-}
+}  */
 
 .toolbar {
   display: flex;
@@ -52,14 +66,22 @@
   background-color: #f44336 !important;
 }
 
-#node-type {
-  position: fixed;
-  top: 50px;
-  right: 20px;
-  border: 2px solid #008cba;
-  background-color: #f1f1f1;
-  padding: 5px;
-  text-align: center;
+.node-tree-and-pin-container {
+  padding: 10px;
+}
+
+.node-tree-container {
+  display: flex;
+  padding-top: 10px;
+}
+
+#node-tree-display {
+  padding-right: 10px;
+}
+
+#node-tree-display-pinned {
+  border-left: 2px solid lightgray;
+  padding-left: 10px;
 }
 
 .display-none {

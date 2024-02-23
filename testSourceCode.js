@@ -2,7 +2,7 @@ export const code = `// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 contract FundsHandler {
-    address immutable public owner;
+    address public immutable owner;
     mapping(address => uint256) public balances;
 
     constructor(address _addr) {

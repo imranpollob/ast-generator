@@ -28,7 +28,7 @@ import "codemirror/addon/dialog/dialog.js";
 import "codemirror/addon/dialog/dialog.css";
 
 const btn = document.querySelector("#convertBtn");
-const nodeType = document.querySelector("#node-type");
+const nodeType = document.querySelector("#node-tree-display");
 let mark;
 let blockIndices;
 let compiledAst;
