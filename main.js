@@ -84,8 +84,9 @@ editor.on("cursorActivity", function () {
     (item) => pos >= item.codeStart && pos <= item.codeEnd
   );
 
-  console.log("Cursor position:", pos);
-  console.log("Matched block:", block);
+  // NOTE: Uncomment the following lines to see the cursor position and matched block
+  // console.log("Cursor position:", pos);
+  // console.log("Matched block:", block);
 
   if (block) {
     mark = highlight(block.start, block.end);
@@ -108,7 +109,7 @@ editor.on("change", function (instance, changeObj) {
 astEditor.on("cursorActivity", function () {
   const cursor = astEditor.getCursor();
   let pos = astEditor.indexFromPos(cursor);
-  console.log("AST Cursor position:", pos);
+  // console.log("AST Cursor position:", pos);
 });
 
 // Functionalities
@@ -116,8 +117,18 @@ function highlight(start, end) {
   if (isDirty) return;
 
   const target = JSON.parse(astEditor.getValue().slice(start, end));
+  start = astEditor.posFromIndex(start);
+  end = astEditor.posFromIndex(end);
 
-  // nodeType.innerText = target.nodeType;
+  const mark = astEditor.markText(start, end, {
+    className: "highlighted-block",
+  });
+
+  displayNodePath(target);
+}
+
+function displayNodePath(target) {
+  nodeType.innerText = target.nodeType;
   let targetPath = findParentPathAndNodeType(
     JSON.parse(astEditor.getValue()),
     target.id
@@ -128,17 +139,7 @@ function highlight(start, end) {
   }
 
   nodeType.innerText = targetPath.join("\n");
-
   nodeType.classList.remove("display-none");
-
-  start = astEditor.posFromIndex(start);
-  end = astEditor.posFromIndex(end);
-
-  const mark = astEditor.markText(start, end, {
-    className: "highlighted-block",
-  });
-
-  return mark;
 }
 
 function removeHighlight() {

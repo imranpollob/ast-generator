@@ -30,15 +30,9 @@ export function findBlockIndices(code) {
   }
 
   // console.log(blockIndices.length);
-  console.log("Block indices:", blockIndices);
+  // console.log("Block indices:", blockIndices);
   return blockIndices;
 }
-
-// let blockIndices = findBlockIndices(astCode);
-// blockIndices = blockIndices.filter((item) => item.codeStart);
-// blockIndices.sort((a, b) => a.end - a.start - (b.end - b.start));
-
-// console.log(blockIndices);
 
 export function findParentPathAndNodeType(
   node,
@@ -47,7 +41,7 @@ export function findParentPathAndNodeType(
   nodeTypes = []
 ) {
   if (typeof node === "object") {
-    if (node.id === targetId) {
+    if (node && typeof node === "object" && node.id === targetId) {
       nodeTypes.shift();
       nodeTypes.push(node.nodeType);
       return path.map(
