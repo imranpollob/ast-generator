@@ -48,8 +48,6 @@ export function findParentPathAndNodeType(
         lastNode += ` | <span class="node-name">${node.name}</span>`;
       }
       nodeTypes.push(lastNode);
-      console.log("Node path:", path);
-      console.log("Node types:", nodeTypes);
       return path.map((v, i) => `${v} ${nodeTypes[i] ? nodeTypes[i] : ""}`);
     }
 
