@@ -133,12 +133,9 @@ function displayNodePath(target) {
     JSON.parse(astEditor.getValue()),
     target.id
   );
-
-  if ("name" in target) {
-    targetPath.push(`Name: ${target.name}`);
-  }
-
-  nodeType.innerText = targetPath.join("\n");
+  const headerText = `<span class="node-path-header-text">Node <span class="node-type">nodeType</span> | <span class="node-name">Name</span></span>`;
+  targetPath.unshift(headerText);
+  nodeType.innerHTML = targetPath.join("<br>");
   nodeType.classList.remove("display-none");
 }
 

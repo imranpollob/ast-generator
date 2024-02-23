@@ -42,23 +42,32 @@ export function findParentPathAndNodeType(
 ) {
   if (typeof node === "object") {
     if (node && typeof node === "object" && node.id === targetId) {
-      nodeTypes.shift();
-      nodeTypes.push(node.nodeType);
-      return path.map(
-        (v, i) => `${v} ${nodeTypes[i] ? "(" + nodeTypes[i] + ")" : ""}`
-      );
+      nodeTypes.shift(); // Remove the first item
+      let lastNode = `<span class="node-type"> ${node.nodeType} </span>`;
+      if ("name" in node) {
+        lastNode += ` | <span class="node-name">${node.name}</span>`;
+      }
+      nodeTypes.push(lastNode);
+      console.log("Node path:", path);
+      console.log("Node types:", nodeTypes);
+      return path.map((v, i) => `${v} ${nodeTypes[i] ? nodeTypes[i] : ""}`);
     }
 
     for (const key in node) {
       let nodeName = "";
       if ("name" in node) {
-        nodeName = ` | ${node.name}`;
+        nodeName = ` | <span class="node-name">${node.name}</span>`;
       }
       const result = findParentPathAndNodeType(
         node[key],
         targetId,
         [...path, key],
-        [...nodeTypes, node.nodeType ? node.nodeType + nodeName : ""]
+        [
+          ...nodeTypes,
+          node.nodeType
+            ? `<span class="node-type"> ${node.nodeType} </span>` + nodeName
+            : "",
+        ]
       );
       if (result) {
         return result;

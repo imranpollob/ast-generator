@@ -3,6 +3,17 @@
   color: black;
 }
 
+.node-path-header-text {
+  text-decoration: underline;
+}
+.node-type {
+  color: #53c28f;
+}
+
+.node-name {
+  color: #5b8df8;
+}
+
 .editors {
   display: flex;
 }

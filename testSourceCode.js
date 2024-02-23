@@ -1,11 +1,26 @@
 export const code = `// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract Test {
-    uint256 constant WEEK = 604800; // Number of seconds in a week
+contract FundsHandler {
+    address immutable public owner;
+    mapping(address => uint256) public balances;
 
-    function getBlockTimestamp() public view returns (uint) {
-        return block.timestamp;
+    constructor(address _addr) {
+        owner = _addr;
+    }
+
+    // Function with refund mechanism
+    function handleFundsAndRefund(uint256 amountToCheck) external payable {
+        require(msg.value >= amountToCheck, "Insufficient funds sent");
+
+        // Perform some action with the funds
+        balances[msg.sender] += msg.value;
+
+        // Refund excess funds back to the sender
+        if (msg.value > amountToCheck) {
+            uint256 excessAmount = msg.value - amountToCheck;
+            payable(msg.sender).transfer(excessAmount);
+        }
     }
 }
 `;
