@@ -1,69 +1,64 @@
-.highlighted-block {
-  background-color: yellow;
-  color: black;
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
-.node-path-header-text {
-  text-decoration: underline;
-}
-
-.node-type {
-  color: #53c28f;
-}
-
-.node-name {
-  color: #5b8df8;
-}
-
-.editors {
+.toolbar {
   display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 40px;
+  background-color: #f0f0f0;
+}
+
+.main-container {
+  display: flex;
+  height: calc(100vh - 40px);
 }
 
 #left-panel,
 #ast-editor {
   width: 50%;
+  height: 100%;
+  overflow: auto;
 }
 
-/* #left-panel {
+#left-panel {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-} */
+}
+
+#code-editor,
+.node-tree-and-pin-container {
+  overflow: auto;
+}
+
+#code-editor {
+  height: 60%;
+}
+
+.node-tree-and-pin-container {
+  height: 40%;
+}
 
 #code-editor .CodeMirror {
-  height: 60vh !important;
-  border-width: 1px 0 1px 1px;
+  height: 60vh;
+  border-width: 1px 0 2px 1px;
   border-style: solid;
   border-color: #ddd;
 }
 
+#ast-editor {
+  height: auto;
+  overflow: auto;
+  margin: 0;
+}
+
 #ast-editor .CodeMirror {
-  height: 95vh !important;
+  height: calc(100vh - 45px);
   border: 1px solid #ddd;
-}
-
-/* .CodeMirror-scroll {
-  max-height: 100vh !important;
-}  */
-
-.toolbar {
-  display: flex;
-  justify-content: space-around;
-  padding-bottom: 5px;
-  font-size: 14px;
-}
-
-#convertBtn {
-  background-color: #04aa6d;
-  border: none;
-  color: white;
-  padding: 5px 10px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.dirty {
-  background-color: #f44336 !important;
 }
 
 .node-tree-and-pin-container {
@@ -84,6 +79,25 @@
   padding-left: 10px;
 }
 
+/* small styles */
+
+.highlighted-block {
+  background-color: yellow;
+  color: black;
+}
+
+.node-path-header-text {
+  text-decoration: underline;
+}
+
+.node-type {
+  color: #53c28f;
+}
+
+.node-name {
+  color: #5b8df8;
+}
+
 .display-none {
   display: none;
 }
@@ -91,3 +105,28 @@
 .cm-searching {
   border: 1px solid seagreen;
 }
+
+#convertBtn {
+  background-color: #04aa6d;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#pin-button {
+  background-color: white;
+  border: 1px solid black;
+  color: black;
+  padding: 2px 5px;
+  cursor: pointer;
+}
+
+.dirty {
+  background-color: #f44336 !important;
+}
+
+/* .CodeMirror-scroll {
+  max-height: 100vh !important;
+}  */
