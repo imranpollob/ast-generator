@@ -44,7 +44,7 @@ html {
 }
 
 #code-editor .CodeMirror {
-  height: 60vh;
+  height: 100%;
   border-width: 1px 0 2px 1px;
   border-style: solid;
   border-color: #ddd;
