@@ -140,6 +140,14 @@ html {
 }
 
 @media (max-width: 767px) {
+  .toolbar h1 {
+    font-size: 12px;
+  }
+
+  #convertBtn {
+    font-size: 12px;
+  }
+
   .main-container {
     flex-direction: column;
   }
@@ -153,6 +161,10 @@ html {
   #code-editor,
   .node-tree-and-pin-container {
     height: 100%;
+  }
+
+  .node-tree-and-pin-container {
+    border-top: 1px solid #ddd;
   }
 
   #code-editor {
