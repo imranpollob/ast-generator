@@ -139,6 +139,32 @@ html {
   background-color: #f44336 !important;
 }
 
-/* .CodeMirror-scroll {
-  max-height: 100vh !important;
-}  */
+@media (max-width: 767px) {
+  .main-container {
+    flex-direction: column;
+  }
+
+  #left-panel,
+  #ast-editor {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  #code-editor,
+  .node-tree-and-pin-container {
+    height: 100%;
+  }
+
+  #code-editor {
+    overflow: hidden;
+  }
+
+  #ast-editor {
+    height: 100%;
+  }
+
+  #pin-button,
+  #unpin-button {
+    display: none;
+  }
+}
