@@ -16,16 +16,16 @@
   </head>
   <body>
     <div class="toolbar">
-      <div>Code</div>
-      <button id="convertBtn">Compile Now</button>
-      <div>AST</div>
+      <h1>AST Generator for Solidity Code</h1>
+      <button type="button" id="convertBtn">Compile Now</button>
     </div>
     <div class="main-container">
       <div id="left-panel">
         <div id="code-editor"></div>
         <div class="node-tree-and-pin-container">
           <div>
-            <button id="pin-button" onclick="copyContent()">Pin</button>
+            <button type="button" id="pin-button">Pin</button>
+            <button type="button" id="unpin-button">Unpin</button>
           </div>
           <div class="node-tree-container">
             <div id="node-tree-display"></div>
@@ -37,6 +37,5 @@
     </div>
 
     <script type="module" src="/main.js"></script>
-    <script src="/node-tree-display.js"></script>
   </body>
 </html>

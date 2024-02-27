@@ -8,9 +8,15 @@ html {
 .toolbar {
   display: flex;
   justify-content: space-around;
+  color: gray;
   align-items: center;
   height: 40px;
   background-color: #f0f0f0;
+}
+
+.toolbar h1 {
+  font-size: 16px;
+  font-weight: lighter;
 }
 
 .main-container {
@@ -57,7 +63,8 @@ html {
 }
 
 #ast-editor .CodeMirror {
-  height: calc(100vh - 45px);
+  /* height: calc(100vh - 45px); */
+  height: 100%;
   border: 1px solid #ddd;
 }
 
@@ -75,8 +82,12 @@ html {
 }
 
 #node-tree-display-pinned {
-  border-left: 2px solid lightgray;
+  /* border-left: 2px solid lightgray; */
   padding-left: 10px;
+}
+
+.border-left {
+  border-left: 2px solid lightgray;
 }
 
 /* small styles */
@@ -115,7 +126,8 @@ html {
   cursor: pointer;
 }
 
-#pin-button {
+#pin-button,
+#unpin-button {
   background-color: white;
   border: 1px solid black;
   color: black;

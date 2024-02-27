@@ -29,6 +29,8 @@ import "codemirror/addon/dialog/dialog.css";
 
 const btn = document.querySelector("#convertBtn");
 const nodeType = document.querySelector("#node-tree-display");
+const pinButton = document.querySelector("#pin-button");
+const unpinButton = document.querySelector("#unpin-button");
 let mark;
 let blockIndices;
 let compiledAst;
@@ -96,7 +98,6 @@ editor.on("cursorActivity", function () {
 
 editor.on("change", function (instance, changeObj) {
   if (!!changeObj && !isDirty) {
-    console.log("Editor changed!");
     isDirty = true;
     removeHighlight();
     nodeType.innerText = "";
@@ -186,4 +187,31 @@ btn.addEventListener("click", () => {
     .catch((error) => {
       console.error("Error fetching data:", error);
     });
+});
+
+pinButton.addEventListener("click", () => {
+  const nodeTreeDisplay =
+    document.getElementById("node-tree-display").innerHTML;
+  const nodeTreeDisplayPinned = document.getElementById(
+    "node-tree-display-pinned"
+  );
+
+  if (nodeTreeDisplay.trim() !== "") {
+    nodeTreeDisplayPinned.innerHTML = nodeTreeDisplay;
+    if (!nodeTreeDisplayPinned.classList.contains("border-left")) {
+      nodeTreeDisplayPinned.classList.add("border-left");
+    }
+  } else {
+    nodeTreeDisplayPinned.innerHTML = "";
+  }
+});
+
+unpinButton.addEventListener("click", () => {
+  const nodeTreeDisplayPinned = document.getElementById(
+    "node-tree-display-pinned"
+  );
+  nodeTreeDisplayPinned.innerHTML = "";
+  if (nodeTreeDisplayPinned.classList.contains("border-left")) {
+    nodeTreeDisplayPinned.classList.remove("border-left");
+  }
 });
