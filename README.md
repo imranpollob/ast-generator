@@ -1,7 +1,10 @@
 # AST Generator
-This project takes a solidity code and generates the ast of it.
+This project takes a solidity code and generates the AST of it.
 
-It also supports ast code highlighting for any given selection.
+### Features
+- Highlight AST code for any selected solidity code
+- Traversed tree path is shown
+- Tree is pinnable, helps to visually differentiate between two trees
 
 ![Screenshot](./screenshot.jpeg)
 
