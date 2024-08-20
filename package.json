@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"vite\" \"nodemon server.js\"",
     "build": "vite build && node server.js",
-    "production": "vite build && pm2 restart server.js",
+    "production": "vite build && pm2 start server.js",
     "preview": "vite preview",
     "vite": "vite",
     "vite-build": "vite build"
